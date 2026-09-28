@@ -194,7 +194,7 @@ function updateTimer() {
   if (remainingTime <= 0) {
     clearInterval(timerId);
     gameFinished = true;
-    finalMessageEl.innerHTML = '<div>쟈끼이! 잘해쬽~</div><div class="score-line">' + score + '점</div>';
+    finalMessageEl.innerHTML = '<div class="score-line">미 ' + score + '점</div>';
     finalMessageEl.classList.remove('hidden');
     restartBtn.classList.remove('hidden');
     gameArea.innerHTML = '';
@@ -215,7 +215,7 @@ function finishGame() {
   clearInterval(timerId);
   gameFinished = true;
   gameArea.innerHTML = '';
-  finalMessageEl.innerHTML = '<div>쟈끼이! 잘해쬽~</div><div class="score-line">' + score + '점</div>';
+  finalMessageEl.innerHTML = '<div class="score-line">미 ' + score + '점</div>';
   finalMessageEl.classList.remove('hidden');
   restartBtn.classList.remove('hidden');
   comboMessageEl.classList.add('hidden');
