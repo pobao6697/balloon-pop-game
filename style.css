@@ -166,6 +166,7 @@ h1 {
   box-shadow: 0 18px 28px rgba(255, 98, 163, 0.4);
   cursor: pointer;
   transition: transform 0.12s ease, filter 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .start-btn span {
@@ -249,6 +250,7 @@ h1 {
   box-shadow: inset -12px -12px 0 rgba(255, 255, 255, 0.22), 0 12px 18px rgba(26, 22, 56, 0.15);
   animation: floatUp 4.4s ease-in-out infinite alternate;
   transition: transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .balloon::before {
@@ -343,6 +345,7 @@ h1 {
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 12px 24px rgba(255, 103, 168, 0.32);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .restart-btn:hover {

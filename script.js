@@ -110,7 +110,10 @@ function makeBalloon() {
   balloon.style.top = `${y}px`;
   balloon.style.background = `radial-gradient(circle at 35% 25%, #ffffff 0%, #fefefe 12%, ${color} 36%, ${color} 72%, #d14d95 100%)`;
 
-  balloon.addEventListener('click', () => {
+  const handlePop = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (gameFinished || balloon.classList.contains('burst')) return;
 
     ensureAudio();
@@ -128,7 +131,11 @@ function makeBalloon() {
     if (balloonsPopped >= totalBalloons) {
       finishGame();
     }
-  });
+  };
+
+  balloon.addEventListener('click', handlePop);
+  balloon.addEventListener('touchend', handlePop, { passive: false });
+  balloon.addEventListener('pointerdown', handlePop);
 
   gameArea.appendChild(balloon);
 }
@@ -195,9 +202,20 @@ startBtn.addEventListener('click', () => {
   startGame();
 });
 
+startBtn.addEventListener('touchend', (event) => {
+  event.preventDefault();
+  ensureAudio();
+  startGame();
+}, { passive: false });
+
 restartBtn.addEventListener('click', () => {
   startGame();
 });
+
+restartBtn.addEventListener('touchend', (event) => {
+  event.preventDefault();
+  startGame();
+}, { passive: false });
 
 window.addEventListener('pointerdown', () => {
   ensureAudio();
