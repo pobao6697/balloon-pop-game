@@ -1,7 +1,7 @@
 const phrases = [
   '세현아',
   '잘 도착 했앙?',
-  '저랑 뭐 먹중!',
+  '저뜷 뭐 먹는 중!',
   '짜까이~~~!!',
   '사랑해~~~',
   '오늘도 고생 많아딕!!'
@@ -9,6 +9,7 @@ const phrases = [
 
 const totalBalloons = 18;
 const timeLimit = 20;
+const comboTimeout = 1500;
 const colors = ['#ff77b9', '#ff8c42', '#7dd3fc', '#ffd166', '#8ae98a', '#b892ff', '#ff6b6b', '#7cc0ff', '#ff9ad7'];
 
 const startBtn = document.getElementById('startBtn');
@@ -18,16 +19,19 @@ const gameArea = document.getElementById('gameArea');
 const timeLeftEl = document.getElementById('timeLeft');
 const scoreEl = document.getElementById('score');
 const floatingMessageEl = document.getElementById('floatingMessage');
+const comboMessageEl = document.getElementById('comboMessage');
 const finalMessageEl = document.getElementById('finalMessage');
 const restartBtn = document.getElementById('restartBtn');
 
 let remainingTime = timeLimit;
 let score = 0;
+let combo = 0;
 let balloonsPopped = 0;
 let timerId = null;
 let gameFinished = false;
 let audioCtx = null;
 let musicInterval = null;
+let comboTimer = null;
 
 const balloonScores = [
   20, 25, 30, 35, 40, 45, 50, 55, 60,
@@ -98,6 +102,30 @@ function showFloatingMessage() {
   floatingMessageEl.classList.add('show');
 }
 
+function updateComboDisplay() {
+  if (combo > 0) {
+    comboMessageEl.textContent = `COMBO x${combo}!`;
+    comboMessageEl.classList.remove('hidden');
+  } else {
+    comboMessageEl.classList.add('hidden');
+  }
+}
+
+function resetCombo() {
+  combo = 0;
+  updateComboDisplay();
+}
+
+function increaseCombo() {
+  combo += 1;
+  updateComboDisplay();
+
+  if (comboTimer) clearTimeout(comboTimer);
+  comboTimer = setTimeout(() => {
+    resetCombo();
+  }, comboTimeout);
+}
+
 function makeBalloon() {
   const balloon = document.createElement('button');
   balloon.type = 'button';
@@ -119,6 +147,7 @@ function makeBalloon() {
   balloon.style.background = `radial-gradient(circle at 35% 25%, #ffffff 0%, #fefefe 12%, ${color} 36%, ${color} 72%, #d14d95 100%)`;
   balloon.style.setProperty('--wind-offset', `${Math.random() * 40 - 20}px`);
   balloon.style.setProperty('--float-duration', `${3.2 + Math.random() * 1.2}s`);
+  balloon.style.setProperty('--string-wave', `${Math.random() * 6 - 3}px`);
 
   const handlePop = (event) => {
     event.preventDefault();
@@ -133,7 +162,15 @@ function makeBalloon() {
 
     balloon.classList.add('burst');
     balloonsPopped += 1;
-    score += balloonPoints;
+    
+    increaseCombo();
+    
+    let finalPoints = balloonPoints;
+    if (combo > 1) {
+      finalPoints = Math.floor(balloonPoints * (1 + combo * 0.1));
+    }
+    
+    score += finalPoints;
     scoreEl.textContent = String(score);
 
     setTimeout(() => balloon.remove(), 320);
@@ -157,13 +194,17 @@ function updateTimer() {
   if (remainingTime <= 0) {
     clearInterval(timerId);
     gameFinished = true;
-    finalMessageEl.textContent = `최종점수: ${score}점`;
+    finalMessageEl.innerHTML = `<div>짜끼이! 잤른데~˚</div><div class="score-line">${score}점</div>`;
     finalMessageEl.classList.remove('hidden');
     restartBtn.classList.remove('hidden');
     gameArea.innerHTML = '';
+    comboMessageEl.classList.add('hidden');
     if (musicInterval) {
       clearInterval(musicInterval);
       musicInterval = null;
+    }
+    if (comboTimer) {
+      clearTimeout(comboTimer);
     }
   }
 }
@@ -174,13 +215,17 @@ function finishGame() {
   clearInterval(timerId);
   gameFinished = true;
   gameArea.innerHTML = '';
-  finalMessageEl.textContent = `최종점수: ${score}점`;
+  finalMessageEl.innerHTML = `<div>짜끼이! 잤른데~˚</div><div class="score-line">${score}점</div>`;
   finalMessageEl.classList.remove('hidden');
   restartBtn.classList.remove('hidden');
+  comboMessageEl.classList.add('hidden');
 
   if (musicInterval) {
     clearInterval(musicInterval);
     musicInterval = null;
+  }
+  if (comboTimer) {
+    clearTimeout(comboTimer);
   }
 }
 
@@ -192,12 +237,15 @@ function startGame() {
   gameArea.innerHTML = '';
   finalMessageEl.classList.add('hidden');
   restartBtn.classList.add('hidden');
+  comboMessageEl.classList.add('hidden');
   remainingTime = timeLimit;
   score = 0;
+  combo = 0;
   balloonsPopped = 0;
   gameFinished = false;
   timeLeftEl.textContent = String(remainingTime);
   scoreEl.textContent = String(score);
+  updateComboDisplay();
 
   for (let i = 0; i < totalBalloons; i += 1) {
     makeBalloon();
