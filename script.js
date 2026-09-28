@@ -1,10 +1,10 @@
 const phrases = [
-  '세현아',
-  '잘 도착 했앙?',
-  '저뜷 뭐 먹는 중!',
-  '짜까이~~~!!',
-  '사랑해~~~',
-  '오늘도 고생 많아딕!!'
+  '쟈끼이!!!',
+  '잘 도착 했쯩?',
+  '푹 쉬고 이쯩!!!!',
+  '사랑해~~~!!',
+  'i love you ~~~',
+  '오늘도 고생 많아쯩!!'
 ];
 
 const totalBalloons = 18;
@@ -162,14 +162,14 @@ function makeBalloon() {
 
     balloon.classList.add('burst');
     balloonsPopped += 1;
-    
+
     increaseCombo();
-    
+
     let finalPoints = balloonPoints;
     if (combo > 1) {
       finalPoints = Math.floor(balloonPoints * (1 + combo * 0.1));
     }
-    
+
     score += finalPoints;
     scoreEl.textContent = String(score);
 
@@ -194,7 +194,7 @@ function updateTimer() {
   if (remainingTime <= 0) {
     clearInterval(timerId);
     gameFinished = true;
-    finalMessageEl.innerHTML = `<div>짜끼이! 잤른데~˚</div><div class="score-line">${score}점</div>`;
+    finalMessageEl.innerHTML = '<div>쟈끼이! 잘해쬽~</div><div class="score-line">' + score + '점</div>';
     finalMessageEl.classList.remove('hidden');
     restartBtn.classList.remove('hidden');
     gameArea.innerHTML = '';
@@ -215,7 +215,7 @@ function finishGame() {
   clearInterval(timerId);
   gameFinished = true;
   gameArea.innerHTML = '';
-  finalMessageEl.innerHTML = `<div>짜끼이! 잤른데~˚</div><div class="score-line">${score}점</div>`;
+  finalMessageEl.innerHTML = '<div>쟈끼이! 잘해쬽~</div><div class="score-line">' + score + '점</div>';
   finalMessageEl.classList.remove('hidden');
   restartBtn.classList.remove('hidden');
   comboMessageEl.classList.add('hidden');
