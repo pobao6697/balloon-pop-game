@@ -151,6 +151,11 @@ h1 {
 }
 
 .start-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   border: none;
   border-radius: 24px;
   padding: 26px 42px;
@@ -161,6 +166,11 @@ h1 {
   box-shadow: 0 18px 28px rgba(255, 98, 163, 0.4);
   cursor: pointer;
   transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.start-btn span {
+  display: block;
+  line-height: 1.15;
 }
 
 .start-btn:hover {
@@ -237,7 +247,7 @@ h1 {
   border-radius: 50% 50% 46% 46%;
   cursor: pointer;
   box-shadow: inset -12px -12px 0 rgba(255, 255, 255, 0.22), 0 12px 18px rgba(26, 22, 56, 0.15);
-  animation: floatUp 3.2s ease-in-out infinite alternate;
+  animation: floatUp 4.4s ease-in-out infinite alternate;
   transition: transform 0.1s ease;
 }
 
@@ -266,10 +276,6 @@ h1 {
 
 .balloon:hover {
   transform: scale(1.04);
-}
-
-.balloon.falling {
-  animation: fallAway 0.9s ease-in forwards;
 }
 
 .balloon.burst {
@@ -345,10 +351,10 @@ h1 {
 
 @keyframes floatUp {
   from {
-    transform: translateY(6px) rotate(-2deg);
+    transform: translateY(4px) rotate(-2deg);
   }
   to {
-    transform: translateY(-6px) rotate(2deg);
+    transform: translateY(-10px) rotate(2deg);
   }
 }
 
@@ -364,17 +370,6 @@ h1 {
   100% {
     opacity: 0;
     transform: scale(1.9) rotate(15deg);
-  }
-}
-
-@keyframes fallAway {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(52px) rotate(16deg);
-    opacity: 0;
   }
 }
 
